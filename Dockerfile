@@ -26,11 +26,11 @@ RUN apk update && apk upgrade && \
     openssh
 
 RUN wget "http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" -O nginx.tar.gz
-RUN git clone "https://github.com/chobits/ngx_http_proxy_connect_module"
+RUN curl -L https://github.com/chobits/ngx_http_proxy_connect_module/archive/refs/tags/v${CONNECT_VERSION}.tar.gz | tar xz && mv /ngx_http_proxy_connect_module-$CONNECT_VERSION /ngx_http_proxy_connect_module
 
 RUN tar -zxC / -f nginx.tar.gz && \
     cd /nginx-$NGINX_VERSION && \
-    patch -p1 < /ngx_http_proxy_connect_module/patch/proxy_connect_rewrite_102101.patch && \
+    patch -p1 < /ngx_http_proxy_connect_module/patch/$PACHER_VERSION.patch && \
     ./configure \
     --prefix=/etc/nginx \
     --sbin-path=/usr/sbin/nginx \
