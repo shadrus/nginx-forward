@@ -1,7 +1,7 @@
-FROM nginx:1.25.3-alpine3.18 AS builder
+FROM nginx:1.25.5-alpine3.19 AS builder
 
-ARG NGINX_VERSION=1.25.3
-ARG CONNECT_VERSION=0.0.5
+ARG NGINX_VERSION=1.25.5
+ARG CONNECT_VERSION=0.0.6
 ARG PACHER_VERSION=proxy_connect_rewrite_102101
 
 # Download sources
@@ -77,9 +77,9 @@ RUN tar -zxC / -f nginx.tar.gz && \
 
 #COPY nginx.conf /etc/nginx/nginx.conf
 
-FROM nginx:1.25.3-alpine3.18
+FROM nginx:1.25.5-alpine3.19
 RUN apk update && apk upgrade
-RUN apk add pcre
+RUN apk add pcre && apk add nginx-mod-stream
 COPY --from=builder /etc/nginx/modules/ngx_http_proxy_connect_module.so /etc/nginx/modules/
 COPY --from=builder /usr/sbin/nginx /usr/sbin/nginx
 COPY conf/nginx.conf /etc/nginx/nginx.conf
