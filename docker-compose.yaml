@@ -1,0 +1,15 @@
+services:
+  nginx-forward:
+    image: shadrus/nginx-forward:1.25.5-alpine3.19
+    container_name: nginx-forward
+    restart: always
+    network_mode: "host"
+    environment:
+      TZ: "Europe/Moscow"
+    ports:
+      - 8080:8080
+    volumes:
+      - ./logs:/var/log/nginx
+    logging:
+      options:
+        max-size: "2048m"
